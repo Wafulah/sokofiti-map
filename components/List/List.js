@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect, createRef } from "react";
 import {
   CircularProgress,
@@ -34,7 +36,7 @@ const List = ({
 
   return (
     <div className={classes.container}>
-      <Typography variant="h4">Food & Dining around you</Typography>
+      <Typography variant="h4">Find Produce around you</Typography>
       {isLoading ? (
         <div className={classes.loading}>
           <CircularProgress size="5rem" />

@@ -1,30 +1,21 @@
 import axios from "axios";
 
-const url =
-  "https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary";
-
 export const getPlacesData = async (type, sw, ne) => {
   try {
-    const {
-      data: { data },
-    } = await axios.get(
-      `https://travel-advisor.p.rapidapi.com/${type}/list-in-boundary`,
+    const response = await axios.get(
+      `https://sokofiti-admin.vercel.app/api/stores`,
       {
         params: {
-          bl_latitude: sw.lat,
-          tr_latitude: ne.lat,
-          bl_longitude: sw.lng,
-          tr_longitude: ne.lng,
+          swLat: sw.lat,
+          swLng: sw.lng,
+          neLat: ne.lat,
+          neLng: ne.lng,
         },
-        headers: {
-          "x-rapidapi-host": "travel-advisor.p.rapidapi.com",
-          "x-rapidapi-key":
-            "c61ace4c6fmshc1764f8ec86787fp105b78jsnfa87a68a81e9",
-        },
+        headers: {},
       }
     );
-    console.log(data);
-    return data;
+    console.log("[getPlace]", response.data);
+    return response.data;
   } catch (error) {
     console.log(`Fetch data Error : ${error}`);
   }

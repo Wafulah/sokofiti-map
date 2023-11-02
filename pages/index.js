@@ -1,4 +1,3 @@
-import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { CssBaseline, Grid } from "@material-ui/core";
 
@@ -26,7 +25,6 @@ const Home = () => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
         setCoords({ lat: latitude, lng: longitude });
-        console.log({ lat: latitude, lng: longitude });
       },
       (error) => {
         // Handle any error that may occur during geolocation retrieval.
@@ -36,7 +34,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = places.filter((place) => Number(place.rating) > rating);
+    const filtered = places;
 
     setFilteredPlaces(filtered);
   }, [rating]);
@@ -46,7 +44,7 @@ const Home = () => {
       setIsLoading(true);
 
       getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
-        setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
+        setPlaces(data);
         console.log(data);
         setFilteredPlaces([]);
         setRating("");
@@ -54,7 +52,7 @@ const Home = () => {
       });
     }
   }, [bounds, type]);
-  console.log(places);
+ 
   const onLoad = (autoC) => setAutocomplete(autoC);
 
   const onPlaceChanged = () => {

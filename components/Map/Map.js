@@ -1,29 +1,22 @@
-import React from "react";
+import React,{ useState } from "react";
 import Image from "next/image";
 
 import GoogleMapReact from "google-map-react";
-import { Paper, Typography, useMediaQuery } from "@material-ui/core";
+import { Box, Paper, Typography, useMediaQuery } from "@material-ui/core";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import Rating from "@material-ui/lab/Rating";
 
 import mapStyles from "./mapStyles";
 import useStyles from "./styles.js";
 
-const Map = ({
-  coords,
-  places,
-  setCoords,
-  setBounds,
-  setChildClicked,
- 
-}) => {
+const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
   const matches = useMediaQuery("(min-width:600px)");
   const classes = useStyles();
 
   return (
     <div className={classes.mapContainer}>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
+        bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
         defaultCenter={coords}
         center={coords}
         defaultZoom={14}
@@ -41,7 +34,7 @@ const Map = ({
       >
         {places?.length &&
           places.map((place, i) => (
-            <div
+            <Box
               className={classes.markerContainer}
               lat={Number(place.latitude)}
               lng={Number(place.longitude)}
@@ -59,26 +52,12 @@ const Map = ({
                     {" "}
                     {place.name}
                   </Typography>
-                  <Image
-                    className={classes.pointer}
-                    src={
-                      place.photo
-                        ? place.photo.images.large.url
-                        : "https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg"
-                    }
-                    alt="Sokofiti"
-                  />
-                  <Rating
-                    name="read-only"
-                    size="small"
-                    value={Number(place.rating)}
-                    readOnly
-                  />
+
+                  <Rating name="read-only" size="small" value={4} readOnly />
                 </Paper>
               )}
-            </div>
+            </Box>
           ))}
-        
       </GoogleMapReact>
     </div>
   );
