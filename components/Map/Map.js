@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import GoogleMapReact from "google-map-react";
@@ -52,7 +52,11 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
                     {" "}
                     {place.name}
                   </Typography>
-
+                  <Image
+                    className={classes.pointer}
+                    src={place.images[0].url}
+                    alt={place.name}
+                  />
                   <Rating name="read-only" size="small" value={4} readOnly />
                 </Paper>
               )}

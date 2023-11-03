@@ -22,9 +22,17 @@ const PlaceDetails = ({ place, selected, refProp }) => {
     refProp?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   const classes = useStyles();
 
+  function formatDate(isoDate) {
+    const date = new Date(isoDate);
+    return date.toLocaleDateString(); // Format the date as you like
+  }
   return (
     <Card elevation={6}>
-      
+      <CardMedia
+        style={{ height: 350 }}
+        image={place.images[0].url}
+        title={place.name}
+      />
       <CardContent>
         <Typography gutterBottom variant="h5">
           {place.name}
@@ -35,18 +43,36 @@ const PlaceDetails = ({ place, selected, refProp }) => {
             {place.num_reviews} review{place.num_reviews > 1 && "s"}
           </Typography>
         </Box> */}
-        {/* <Box display="flex" justifyContent="space-between">
+        <Box display="flex" justifyContent="space-between">
           <Typography component="legend">Price</Typography>
           <Typography gutterBottom variant="subtitle1">
-            {place.price}
+            Ksh.{place.price}
           </Typography>
-        </Box> */}
-        {/* <Box display="flex" justifyContent="space-between">
-          <Typography component="legend">Ranking</Typography>
+        </Box>
+        <Box display="flex" justifyContent="space-between">
+          <Typography component="legend">Size</Typography>
           <Typography gutterBottom variant="subtitle1">
-            {place.ranking}
+            {place.size.name}
           </Typography>
-        </Box> */}
+        </Box>
+        <Box display="flex" justifyContent="space-between">
+          <Typography component="legend">Color</Typography>
+          <div
+            style={{
+              width: "20px", // Adjust the width and height as needed
+              height: "20px",
+              backgroundColor: place.color.value, // Use the hex color as the background
+              borderRadius: "50%", // Make it a circle
+            }}
+          ></div>
+        </Box>
+
+        <Box display="flex" justifyContent="space-between">
+          <Typography component="legend">Uploaded</Typography>
+          <Typography gutterBottom variant="subtitle1">
+            {formatDate(place.createdAt)}
+          </Typography>
+        </Box>
         {/* {place?.awards?.map((award, i) => (
           <Box
             key={i}
@@ -64,6 +90,11 @@ const PlaceDetails = ({ place, selected, refProp }) => {
         {/* {place?.cuisine?.map(({ name }) => (
           <Chip key={name} size="small" label={name} className={classes.chip} />
         ))} */}
+        <Chip
+          size="small"
+          label="Organic"
+          className={`${classes.chip} ${classes.backgroundColor}`}
+        />
         {/* {place.address && (
           <Typography
             gutterBottom
@@ -85,22 +116,32 @@ const PlaceDetails = ({ place, selected, refProp }) => {
           </Typography>
         )} */}
       </CardContent>
-      {/* <CardActions>
+      <CardActions>
         <Button
           size="small"
           color="primary"
-          onClick={() => window.open(place.web_url, "_blank")}
+          onClick={() =>
+            window.open(
+              "https://sokofiti-store.vercel.app/product/" + place.id,
+              "_blank"
+            )
+          }
         >
-          Trip Advisor
+          View Product
         </Button>
         <Button
           size="small"
           color="primary"
-          onClick={() => window.open(place.website, "_blank")}
+          onClick={() =>
+            window.open(
+              "https://sokofiti-store.vercel.app/product/" + place.id,
+              "_blank"
+            )
+          }
         >
-          Website
+          Farmer
         </Button>
-      </CardActions> */}
+      </CardActions>
     </Card>
   );
 };

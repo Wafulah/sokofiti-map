@@ -4,11 +4,11 @@ import { CssBaseline, Grid } from "@material-ui/core";
 import Header from "../components/Header/Header";
 import List from "../components/List/List";
 import Map from "../components/Map/Map";
-import { getPlacesData } from "./api";
+import { getPlacesData, getCategory } from "./api";
 import Head from "next/head";
 
 const Home = () => {
-  const [type, setType] = useState("restaurants");
+  const [type, setType] = useState("Morden");
   const [rating, setRating] = useState("");
 
   const [coords, setCoords] = useState({});
@@ -20,7 +20,7 @@ const Home = () => {
   const [autocomplete, setAutocomplete] = useState(null);
   const [childClicked, setChildClicked] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [categories, setCategories] = useState([]);
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
@@ -31,6 +31,8 @@ const Home = () => {
         console.error(error);
       }
     );
+    
+    
   }, []);
 
   useEffect(() => {
@@ -45,14 +47,14 @@ const Home = () => {
 
       getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
         setPlaces(data);
-        console.log(data);
+        
         setFilteredPlaces([]);
         setRating("");
         setIsLoading(false);
       });
     }
   }, [bounds, type]);
- 
+
   const onLoad = (autoC) => setAutocomplete(autoC);
 
   const onPlaceChanged = () => {

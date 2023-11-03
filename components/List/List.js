@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useState, useEffect, createRef } from "react";
 import {
   CircularProgress,
@@ -14,6 +12,8 @@ import {
 import PlaceDetails from "../PlaceDetails/PlaceDetails";
 import useStyles from "./styles.js";
 
+import { getCategory } from "../../pages/api";
+
 const List = ({
   places,
   type,
@@ -26,6 +26,24 @@ const List = ({
   const [elRefs, setElRefs] = useState([]);
   const classes = useStyles();
 
+    const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const response = await getCategory(); // Replace with your API call
+        const categoriesData = response; // Assuming the data structure from your API
+
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    }
+
+    fetchCategories();
+  }, []);
+
   useEffect(() => {
     setElRefs((refs) =>
       Array(places?.length)
@@ -34,9 +52,10 @@ const List = ({
     );
   }, [places]);
 
+
   return (
     <div className={classes.container}>
-      <Typography variant="h4">Find Produce around you</Typography>
+      <Typography variant="h5">Produce around you</Typography>
       {isLoading ? (
         <div className={classes.loading}>
           <CircularProgress size="5rem" />
@@ -50,9 +69,11 @@ const List = ({
               value={type}
               onChange={(e) => setType(e.target.value)}
             >
-              <MenuItem value="restaurants">Restaurants</MenuItem>
-              <MenuItem value="hotels">Hotels</MenuItem>
-              <MenuItem value="attractions">Attractions</MenuItem>
+                      {categories.map((category) => (
+          <MenuItem key={category.id} value={category.name}>
+            {category.name}
+          </MenuItem>
+        ))}
             </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
