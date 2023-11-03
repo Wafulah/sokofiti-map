@@ -56,6 +56,7 @@ const Map = ({ coords, places, setCoords, setBounds, setChildClicked }) => {
                     className={classes.pointer}
                     src={place.images[0].url}
                     alt={place.name}
+                    layout="fill"
                   />
                   <Rating name="read-only" size="small" value={4} readOnly />
                 </Paper>
